@@ -1,4 +1,4 @@
-import { Hero, About, Skills, Projects, Contact, Footer } from "@/components/sections";
+import { Hero, About, Skills, Projects, Certificates, Contact, Footer } from "@/components/sections";
 import { Navigation } from "@/components/sections/navigation";
 
 export default function Home() {
@@ -9,6 +9,7 @@ export default function Home() {
       <About />
       <Skills />
       <Projects />
+      <Certificates />
       <Contact />
       <Footer />
     </main>
