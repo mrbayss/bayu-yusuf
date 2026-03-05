@@ -59,13 +59,21 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
-              <button
+              <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative"
+                whileHover="hover"
+                initial="initial"
               >
                 {item.label}
-              </button>
+                <motion.span
+                  className="absolute -bottom-1 left-0 h-0.5 bg-primary"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.2 }}
+                />
+              </motion.button>
             ))}
           </div>
 
