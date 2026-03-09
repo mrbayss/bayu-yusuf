@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -8,11 +10,18 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { certificates } from "@/data/certificates";
 import { Award, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Certificates() {
+  const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
   return (
     <section id="certificates" className="py-24 px-4 bg-card/30 relative">
       {/* Background pattern */}
@@ -79,15 +88,9 @@ export function Certificates() {
                         variant="outline"
                         size="sm"
                         className="mt-4 hover:bg-primary/10 hover:border-primary/50 transition-all"
-                        asChild
+                        onClick={() => setSelectedCertificate(cert.url!)}
                       >
-                        <a
-                          href={cert.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Certificate
-                        </a>
+                        View Certificate
                       </Button>
                     </motion.div>
                   )}
@@ -109,6 +112,35 @@ export function Certificates() {
           </motion.div>
         )}
       </div>
+
+      {/* Certificate Image Full Screen */}
+      <Dialog open={!!selectedCertificate} onOpenChange={() => setSelectedCertificate(null)}>
+        <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] p-0 overflow-hidden bg-black/95 border-none rounded-none">
+          <DialogHeader className="absolute top-4 left-4 z-10">
+            <DialogTitle className="text-white">Certificate</DialogTitle>
+          </DialogHeader>
+          <button
+            onClick={() => setSelectedCertificate(null)}
+            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          </button>
+          <div className="w-full h-full flex items-center justify-center p-4">
+            {selectedCertificate && (
+              <Image
+                src={selectedCertificate}
+                alt="Certificate"
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

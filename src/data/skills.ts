@@ -7,19 +7,18 @@ export const skills: Skill[] = [
   { name: "TypeScript", category: "frontend", level: 85 },
   { name: "Tailwind CSS", category: "frontend", level: 90 },
   { name: "HTML/CSS", category: "frontend", level: 95 },
-  
+  { name: "PHP", category: "frontend", level: 85 },
+
   // Backend
-  { name: "Node.js", category: "backend", level: 85 },
-  { name: "Go", category: "backend", level: 80 },
-  { name: "PostgreSQL", category: "backend", level: 75 },
+  { name: "Go", category: "backend", level: 90 },
+  { name: "PostgreSQL", category: "backend", level: 90 },
   { name: "REST API", category: "backend", level: 90 },
-  { name: "GraphQL", category: "backend", level: 70 },
-  
+  { name: "PHP", category: "backend", level: 85 },
+
   // Tools
-  { name: "Git", category: "tools", level: 85 },
-  { name: "Docker", category: "tools", level: 75 },
-  { name: "AWS", category: "tools", level: 70 },
-  { name: "Linux", category: "tools", level: 80 },
+  { name: "Git", category: "tools", level: 90 },
+  { name: "Docker", category: "tools", level: 90 },
+  { name: "Linux", category: "tools", level: 90 },
 ];
 
 export const categories = ["frontend", "backend", "tools"] as const;

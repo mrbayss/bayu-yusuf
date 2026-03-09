@@ -7,7 +7,6 @@ import {
   Server,
   Palette,
   Layout,
-  Terminal,
   GitBranch,
   Cloud,
   Box,
@@ -32,7 +31,8 @@ const skillIcons: Record<string, typeof Code> = {
   "Tailwind CSS": Palette,
   "HTML/CSS": Globe,
   "Node.js": Server,
-  Go: Terminal,
+  Go: Code,
+  PHP: Code,
   PostgreSQL: Database,
   "REST API": Network,
   GraphQL: Network,
@@ -102,26 +102,26 @@ export function SkillCard({ skill, index }: SkillCardProps) {
             <div
               className={cn(
                 "px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r",
-                getLevelColor(skill.level)
+                getLevelColor(skill.level),
               )}
               style={{
                 background: `linear-gradient(135deg, ${
                   skill.level >= 90
                     ? "rgba(16, 185, 129, 0.2)"
                     : skill.level >= 80
-                    ? "rgba(59, 130, 246, 0.2)"
-                    : skill.level >= 70
-                    ? "rgba(168, 85, 247, 0.2)"
-                    : "rgba(249, 115, 22, 0.2)"
+                      ? "rgba(59, 130, 246, 0.2)"
+                      : skill.level >= 70
+                        ? "rgba(168, 85, 247, 0.2)"
+                        : "rgba(249, 115, 22, 0.2)"
                 } 0%, transparent 100%)`,
                 color: `${
                   skill.level >= 90
                     ? "#10b981"
                     : skill.level >= 80
-                    ? "#3b82f6"
-                    : skill.level >= 70
-                    ? "#a855f7"
-                    : "#f97316"
+                      ? "#3b82f6"
+                      : skill.level >= 70
+                        ? "#a855f7"
+                        : "#f97316"
                 }`,
               }}
             >
@@ -133,13 +133,15 @@ export function SkillCard({ skill, index }: SkillCardProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Proficiency</span>
-              <span className="font-medium text-foreground">{skill.level}%</span>
+              <span className="font-medium text-foreground">
+                {skill.level}%
+              </span>
             </div>
             <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
               <motion.div
                 className={cn(
                   "h-full rounded-full bg-gradient-to-r",
-                  getLevelColor(skill.level)
+                  getLevelColor(skill.level),
                 )}
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.level}%` }}
