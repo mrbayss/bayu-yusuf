@@ -7,10 +7,10 @@ import { Github, Linkedin, Instagram, Mail, ArrowDown } from "lucide-react";
 import Link from "next/link";
 
 const socialLinks = [
-  { name: "GitHub", url: "https://github.com", icon: Github },
-  { name: "LinkedIn", url: "https://linkedin.com", icon: Linkedin },
-  { name: "Instagram", url: "https://instagram.com", icon: Instagram },
-  { name: "Email", url: "mailto:@example@email.com", icon: Mail },
+  { name: "GitHub", url: "https://github.com/mrbayss", icon: Github },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/muhamad-yusuf-a8613b214/", icon: Linkedin },
+  { name: "Instagram", url: "https://www.instagram.com/bayu.yusuf_/", icon: Instagram },
+  { name: "Email", url: "mailto:bayu190903@gmail.com", icon: Mail },
 ];
 
 export function Hero() {

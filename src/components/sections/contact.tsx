@@ -5,6 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
+
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
 interface FormData {
   name: string;
@@ -55,16 +60,37 @@ export function Contact() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setSubmitStatus("idle");
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitStatus("success");
-    setFormData({ name: "", email: "", message: "" });
-    
-    // Reset status after 3 seconds
-    setTimeout(() => setSubmitStatus("idle"), 3000);
+    try {
+      if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+        console.error("EmailJS configuration missing. Please check .env.local");
+        setSubmitStatus("error");
+        return;
+      }
+
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        PUBLIC_KEY
+      );
+      
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      
+      // Reset status after 3 seconds
+      setTimeout(() => setSubmitStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -232,7 +258,7 @@ export function Contact() {
                   )}
                   {submitStatus === "error" && (
                     <p className="text-sm text-destructive text-center">
-                      Failed to send message. Please try again.
+                      Failed to send message. Please try again or email directly.
                     </p>
                   )}
                 </form>
