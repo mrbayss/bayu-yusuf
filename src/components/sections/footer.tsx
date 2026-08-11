@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { Reveal } from "@/components/ui/reveal";
 import { Github, Linkedin, Instagram, Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -21,31 +19,18 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: false }}
-            className="text-center md:text-left"
-          >
+          <Reveal className="text-center md:text-left">
             <p className="font-semibold">Muhamad Bayu Yusuf</p>
             <p className="text-sm text-muted-foreground">
               Backend Developer • Front End Developer • Software Developer
             </p>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: false }}
-            className="flex items-center gap-4"
-          >
+          <Reveal delay={100} className="flex items-center gap-4">
             {socialLinks.map((social) => (
-              <motion.div
+              <div
                 key={social.name}
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.95 }}
+                className="transition-transform duration-300 hover:scale-110 hover:-translate-y-[3px]"
               >
                 <Link
                   href={social.url}
@@ -56,22 +41,16 @@ export function Footer() {
                   <social.icon className="h-5 w-5" />
                   <span className="sr-only">{social.name}</span>
                 </Link>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </Reveal>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: false }}
-          className="mt-6 pt-6 border-t border-border text-center"
-        >
+        <Reveal delay={200} className="mt-6 pt-6 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
             © {currentYear} Muhamad Bayu Yusuf. All rights reserved.
           </p>
-        </motion.div>
+        </Reveal>
       </div>
     </footer>
   );

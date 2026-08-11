@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/ui/reveal";
 import {
   Code,
   Server,
@@ -47,33 +48,64 @@ interface SkillCardProps {
   index: number;
 }
 
+function AnimatedProgress({ level }: { level: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="h-2 bg-secondary/50 rounded-full overflow-hidden">
+      <div
+        className={cn(
+          "h-full rounded-full bg-gradient-to-r",
+          getLevelColor(level)
+        )}
+        style={{ width: inView ? `${level}%` : "0%", transition: "width 0.8s ease-out" }}
+      />
+    </div>
+  );
+}
+
+const getLevelColor = (level: number) => {
+  if (level >= 90) return "from-emerald-500 to-green-400";
+  if (level >= 80) return "from-blue-500 to-cyan-400";
+  if (level >= 70) return "from-purple-500 to-pink-400";
+  return "from-orange-500 to-yellow-400";
+};
+
+const getLevelLabel = (level: number) => {
+  if (level >= 90) return "Expert";
+  if (level >= 80) return "Advanced";
+  if (level >= 70) return "Intermediate";
+  return "Beginner";
+};
+
 export function SkillCard({ skill, index }: SkillCardProps) {
   const Icon = skillIcons[skill.name] || Code;
   const CategoryIcon = categoryIcons[skill.category] || Box;
 
-  const getLevelColor = (level: number) => {
-    if (level >= 90) return "from-emerald-500 to-green-400";
-    if (level >= 80) return "from-blue-500 to-cyan-400";
-    if (level >= 70) return "from-purple-500 to-pink-400";
-    return "from-orange-500 to-yellow-400";
-  };
-
-  const getLevelLabel = (level: number) => {
-    if (level >= 90) return "Expert";
-    if (level >= 80) return "Advanced";
-    if (level >= 70) return "Intermediate";
-    return "Beginner";
-  };
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-    >
-      <div className="group relative p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary/30 transition-all duration-300 overflow-hidden">
+    <Reveal delay={index * 50}>
+      <div className="group relative p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary/30 transition-all duration-300 overflow-hidden hover:-translate-y-[5px]">
         {/* Gradient background on hover */}
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -102,7 +134,7 @@ export function SkillCard({ skill, index }: SkillCardProps) {
             <div
               className={cn(
                 "px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r",
-                getLevelColor(skill.level),
+                getLevelColor(skill.level)
               )}
               style={{
                 background: `linear-gradient(135deg, ${
@@ -137,24 +169,13 @@ export function SkillCard({ skill, index }: SkillCardProps) {
                 {skill.level}%
               </span>
             </div>
-            <div className="h-2 bg-secondary/50 rounded-full overflow-hidden">
-              <motion.div
-                className={cn(
-                  "h-full rounded-full bg-gradient-to-r",
-                  getLevelColor(skill.level),
-                )}
-                initial={{ width: 0 }}
-                whileInView={{ width: `${skill.level}%` }}
-                transition={{ duration: 0.8, delay: index * 0.1 + 0.3 }}
-                viewport={{ once: true }}
-              />
-            </div>
+            <AnimatedProgress level={skill.level} />
           </div>
 
           {/* Decorative elements */}
           <div className="absolute -right-4 -bottom-4 w-24 h-24 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-colors blur-2xl" />
         </div>
       </div>
-    </motion.div>
+    </Reveal>
   );
 }

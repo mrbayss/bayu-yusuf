@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -17,11 +16,13 @@ const navItems = [
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 50);
-  });
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (href: string) => {
     if (href === "#") {
@@ -37,16 +38,13 @@ export function Navigation() {
 
   return (
     <>
-      <motion.header
+      <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled
             ? "bg-background/80 backdrop-blur-md border-b border-border"
             : "bg-transparent"
         )}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.3 }}
       >
         <nav className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
@@ -59,21 +57,14 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
-              <motion.button
+              <button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative"
-                whileHover="hover"
-                initial="initial"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
               >
                 {item.label}
-                <motion.span
-                  className="absolute -bottom-1 left-0 h-0.5 bg-primary"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: "100%" }}
-                  transition={{ duration: 0.2 }}
-                />
-              </motion.button>
+                <span className="absolute -bottom-1 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300" />
+              </button>
             ))}
           </div>
 
@@ -81,6 +72,7 @@ export function Navigation() {
           <button
             className="md:hidden p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -89,16 +81,11 @@ export function Navigation() {
             )}
           </button>
         </nav>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed inset-0 z-40 bg-background md:hidden pt-20"
-        >
+        <div className="fixed inset-0 z-40 bg-background md:hidden pt-20 animate-fade-in">
           <div className="flex flex-col items-center gap-6 p-6">
             {navItems.map((item) => (
               <button
@@ -110,7 +97,7 @@ export function Navigation() {
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
     </>
   );

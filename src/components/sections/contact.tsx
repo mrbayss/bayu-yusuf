@@ -1,11 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
-import emailjs from "@emailjs/browser";
 
 const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -56,12 +55,12 @@ export function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
     setSubmitStatus("idle");
-    
+
     try {
       if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
         console.error("EmailJS configuration missing. Please check .env.local");
@@ -69,6 +68,7 @@ export function Contact() {
         return;
       }
 
+      const emailjs = (await import("@emailjs/browser")).default;
       await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
@@ -79,10 +79,10 @@ export function Contact() {
         },
         PUBLIC_KEY
       );
-      
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
-      
+
       // Reset status after 3 seconds
       setTimeout(() => setSubmitStatus("idle"), 3000);
     } catch (error) {
@@ -107,27 +107,16 @@ export function Contact() {
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: false }}
-          className="text-center mb-16"
-        >
+        <Reveal className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have a question or want to work together? Feel free to reach out!
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: false }}
-          >
+          <Reveal variant="left">
             <Card className="h-full hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
@@ -165,15 +154,10 @@ export function Contact() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </Reveal>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: false }}
-          >
+          <Reveal variant="right" delay={100}>
             <Card className="hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
               <CardHeader>
                 <CardTitle>Send a Message</CardTitle>
@@ -264,7 +248,7 @@ export function Contact() {
                 </form>
               </CardContent>
             </Card>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

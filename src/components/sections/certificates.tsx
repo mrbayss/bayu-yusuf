@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -16,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Reveal } from "@/components/ui/reveal";
 import { certificates } from "@/data/certificates";
 import { Award, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export function Certificates() {
   return (
     <section id="certificates" className="py-24 px-4 bg-card/30 relative">
       {/* Background pattern */}
-      <div className="absolute inset-0 opacity-[0.02]" 
+      <div className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
           backgroundSize: '20px 20px',
@@ -33,30 +33,17 @@ export function Certificates() {
       />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: false }}
-          className="text-center mb-16"
-        >
+        <Reveal className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Certificates</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Professional certifications and achievements.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 gap-6">
           {certificates.map((cert, index) => (
-            <motion.div
-              key={cert.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: false }}
-              whileHover={{ y: -5 }}
-            >
-              <Card className="h-full overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+            <Reveal key={cert.id} delay={index * 100}>
+              <Card className="h-full overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group hover:-translate-y-[5px]">
                 {cert.url && (
                   <button
                     type="button"
@@ -75,12 +62,9 @@ export function Certificates() {
                 )}
                 <CardHeader>
                   <div className="flex items-start gap-4">
-                    <motion.div 
-                      className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors"
-                      whileHover={{ rotate: 5, scale: 1.05 }}
-                    >
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors group-hover:rotate-6 group-hover:scale-105">
                       <Award className="h-6 w-6" />
-                    </motion.div>
+                    </div>
                     <div className="flex-1">
                       <CardTitle className="group-hover:text-primary transition-colors duration-300">
                         {cert.name}
@@ -99,7 +83,7 @@ export function Certificates() {
                     </div>
                   </div>
                   {cert.url && (
-                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <div className="transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]">
                       <Button
                         variant="outline"
                         size="sm"
@@ -108,30 +92,27 @@ export function Certificates() {
                       >
                         View Certificate
                       </Button>
-                    </motion.div>
+                    </div>
                   )}
                 </CardContent>
               </Card>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
         {certificates.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: false }}
-            className="text-center py-12"
-          >
+          <div className="text-center py-12 animate-fade-in">
             <p className="text-muted-foreground">Certificates coming soon!</p>
-          </motion.div>
+          </div>
         )}
       </div>
 
       {/* Certificate Image Full Screen */}
       <Dialog open={!!selectedCertificate} onOpenChange={() => setSelectedCertificate(null)}>
-        <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] p-0 overflow-hidden bg-black/95 border-none rounded-none">
+        <DialogContent
+          className="max-w-[100vw] w-[100vw] h-[100vh] p-0 overflow-hidden bg-black/95 border-none rounded-none"
+          onClose={() => setSelectedCertificate(null)}
+        >
           <DialogHeader className="absolute top-4 left-4 z-10">
             <DialogTitle className="text-white">Certificate</DialogTitle>
           </DialogHeader>
@@ -151,7 +132,6 @@ export function Certificates() {
                 fill
                 className="object-contain"
                 sizes="100vw"
-                priority
               />
             )}
           </div>

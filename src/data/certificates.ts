@@ -12,6 +12,6 @@ export const certificates: Certificate[] = [
     name: "Linux Experience",
     issuer: "Linux",
     date: "2025",
-    url: "/certificates/linux.png",
+    url: "/certificates/linux.webp",
   },
 ];

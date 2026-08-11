@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { projects } from "@/data/projects";
 import { ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,30 +14,17 @@ export function Projects() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/5 to-transparent pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: false }}
-          className="text-center mb-16"
-        >
+        <Reveal className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Projects</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A collection of projects I have worked on. More coming soon!
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: false }}
-              whileHover={{ y: -8 }}
-            >
-              <Card className="h-full overflow-hidden hover:border-primary/60 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 group">
+            <Reveal key={project.id} delay={index * 100}>
+              <Card className="h-full overflow-hidden hover:border-primary/60 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 group hover:-translate-y-2">
                 {project.image && (
                   <div className="relative aspect-video overflow-hidden">
                     <Image
@@ -74,24 +61,24 @@ export function Projects() {
                   </div>
                   <div className="flex gap-2">
                     {project.link && (
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <div className="transition-transform duration-300 hover:scale-105 active:scale-95">
                         <Button variant="outline" size="sm" asChild>
                           <a href={project.link} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="mr-2 h-4 w-4" />
                             Demo
                           </a>
                         </Button>
-                      </motion.div>
+                      </div>
                     )}
                     {project.github && (
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <div className="transition-transform duration-300 hover:scale-105 active:scale-95">
                         <Button variant="outline" size="sm" asChild>
                           <a href={project.github} target="_blank" rel="noopener noreferrer">
                             <Github className="mr-2 h-4 w-4" />
                             Code
                           </a>
                         </Button>
-                      </motion.div>
+                      </div>
                     )}
                     {!project.link && !project.github && (
                       <span className="text-sm text-muted-foreground">Coming soon</span>
@@ -99,20 +86,14 @@ export function Projects() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
         {projects.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: false }}
-            className="text-center py-12"
-          >
+          <div className="text-center py-12 animate-fade-in">
             <p className="text-muted-foreground">Projects coming soon!</p>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

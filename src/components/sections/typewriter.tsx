@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 
 const roles = [
   "Backend Developer",
@@ -16,7 +15,7 @@ export function Typewriter() {
 
   useEffect(() => {
     const currentRole = roles[currentRoleIndex];
-    let deleteTimeout: NodeJS.Timeout;
+    let deleteTimeout: ReturnType<typeof setTimeout>;
 
     const timeout = setTimeout(() => {
       if (!isDeleting) {
@@ -46,19 +45,10 @@ export function Typewriter() {
 
   return (
     <span className="inline-block min-h-[1.5em]">
-      <motion.span
-        className="text-xl md:text-2xl text-primary font-medium"
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <span className="text-xl md:text-2xl text-primary font-medium">
         {currentText}
-      </motion.span>
-      <motion.span
-        className="inline-block w-[3px] h-[1.2em] bg-primary ml-1 align-middle"
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-      />
+      </span>
+      <span className="inline-block w-[3px] h-[1.2em] bg-primary ml-1 align-middle animate-pulse" />
     </span>
   );
 }
