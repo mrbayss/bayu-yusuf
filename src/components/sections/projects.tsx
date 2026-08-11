@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { projects } from "@/data/projects";
 import { ExternalLink, Github } from "lucide-react";
@@ -36,7 +37,18 @@ export function Projects() {
               viewport={{ once: false }}
               whileHover={{ y: -8 }}
             >
-              <Card className="h-full hover:border-primary/60 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 group">
+              <Card className="h-full overflow-hidden hover:border-primary/60 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 group">
+                {project.image && (
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
+                )}
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>

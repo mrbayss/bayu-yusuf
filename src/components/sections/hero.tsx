@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Typewriter } from "./typewriter";
 import { Github, Linkedin, Instagram, Mail, ArrowDown } from "lucide-react";
@@ -8,7 +9,7 @@ import Link from "next/link";
 
 const socialLinks = [
   { name: "GitHub", url: "https://github.com/mrbayss", icon: Github },
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/muhamad-yusuf-a8613b214/", icon: Linkedin },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/muhamad-bayu-yusuf-a8613b214/", icon: Linkedin },
   { name: "Instagram", url: "https://www.instagram.com/bayu.yusuf_/", icon: Instagram },
   { name: "Email", url: "mailto:bayu190903@gmail.com", icon: Mail },
 ];
@@ -118,6 +119,25 @@ export function Hero() {
         >
           Muhamad Bayu Yusuf
         </motion.h1>
+
+        {/* Profile photo */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+        >
+          <div className="mx-auto w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden ring-4 ring-primary/40 shadow-[0_0_40px_rgba(168,85,247,0.3)]">
+            <Image
+              src="/profile.JPG"
+              alt="Muhamad Bayu Yusuf"
+              width={192}
+              height={192}
+              className="w-full h-full object-cover"
+              priority
+            />
+          </div>
+        </motion.div>
 
         {/* Typing Animation for Role */}
         <motion.div

@@ -142,7 +142,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium">bayu@email.com</p>
+                    <p className="font-medium">bayu190903@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -151,7 +151,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Phone</p>
-                    <p className="font-medium">+62 xxx xxx xxxx</p>
+                    <p className="font-medium">+62 813 1503 2646</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

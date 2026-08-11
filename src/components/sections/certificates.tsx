@@ -56,7 +56,23 @@ export function Certificates() {
               viewport={{ once: false }}
               whileHover={{ y: -5 }}
             >
-              <Card className="h-full hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <Card className="h-full overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+                {cert.url && (
+                  <button
+                    type="button"
+                    className="relative block w-full aspect-video overflow-hidden bg-secondary/30 cursor-zoom-in"
+                    onClick={() => setSelectedCertificate(cert.url!)}
+                    aria-label={`View ${cert.name}`}
+                  >
+                    <Image
+                      src={cert.url}
+                      alt={cert.name}
+                      fill
+                      className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </button>
+                )}
                 <CardHeader>
                   <div className="flex items-start gap-4">
                     <motion.div 

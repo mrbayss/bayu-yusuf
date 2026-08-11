@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const socialLinks = [
   { name: "GitHub", url: "https://github.com/mrbayss", icon: Github },
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/muhamad-yusuf-a8613b214/", icon: Linkedin },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/muhamad-bayu-yusuf-a8613b214/", icon: Linkedin },
   { name: "Instagram", url: "https://www.instagram.com/bayu.yusuf_/", icon: Instagram },
   { name: "Email", url: "mailto:bayu190903@gmail.com", icon: Mail },
 ];
@@ -30,7 +30,7 @@ export function Footer() {
           >
             <p className="font-semibold">Muhamad Bayu Yusuf</p>
             <p className="text-sm text-muted-foreground">
-              Backend Developer • Front End Developer • Backend Engineer
+              Backend Developer • Front End Developer • Software Developer
             </p>
           </motion.div>
 

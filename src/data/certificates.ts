@@ -9,9 +9,9 @@ export interface Certificate {
 export const certificates: Certificate[] = [
   {
     id: "1",
-    name: "AWS Certified Solutions Architect",
-    issuer: "Amazon Web Services",
-    date: "2024",
-    url: "/certificates/sertifikat 1.png",
+    name: "Linux Experience",
+    issuer: "Linux",
+    date: "2025",
+    url: "/certificates/linux.png",
   },
 ];
